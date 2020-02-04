@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
+import ContextProviders from "./context";
+import AppNav from "./components/AppNav";
+import Albums from "./components/Albums";
+import Album from "./components/Album";
+
+import "./App.css";
+
+const App = () => (
+  <ContextProviders>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppNav />
+      <Albums />
+      <Album />
     </div>
-  );
-}
+  </ContextProviders>
+);
 
 export default App;
