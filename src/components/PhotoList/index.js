@@ -1,11 +1,19 @@
-import React from "react";
-import { Typography, Button } from "@material-ui/core";
+import React, { useCallback } from "react";
+import { Typography, Button, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useAlbums } from "../../context";
 import PhotosCarousel from "../PhotosCarousel";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "1rem",
+    "& > * + *": {
+      marginLeft: theme.spacing(2)
+    }
+  },
   container: {
     width: "100%",
     display: "flex",
@@ -19,9 +27,16 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+const hasLength = arr => arr && !!arr.length;
+
 const PhotoList = ({ album, photos }) => {
-  const { container, header } = useStyles();
-  const { handleResetAlbum } = useAlbums();
+  const { root, container, header } = useStyles();
+  const { handleResetAlbum, handleResetPhotos } = useAlbums();
+
+  const handleReset = useCallback(() => {
+    handleResetAlbum();
+    handleResetPhotos();
+  }, [handleResetAlbum, handleResetPhotos]);
 
   return (
     <div className={container}>
@@ -29,15 +44,23 @@ const PhotoList = ({ album, photos }) => {
         <Typography variant="h4" component="h2">
           {album && album.title}
         </Typography>
-        <Button onClick={handleResetAlbum}>Back</Button>
+        <Button onClick={handleReset}>Back</Button>
       </div>
       <Typography variant="subtitle2" component="h3">
         Fotos del album
       </Typography>
-      <Typography variant="caption" component="p">
-        {photos.length} foto(s) en este album
-      </Typography>
-      <PhotosCarousel photos={photos} />
+      {hasLength(photos) ? (
+        <>
+          <Typography variant="caption" component="p">
+            {photos.length} foto(s) en este album
+          </Typography>
+          <PhotosCarousel photos={photos} />
+        </>
+      ) : (
+        <div className={root}>
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 };

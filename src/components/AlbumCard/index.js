@@ -7,7 +7,8 @@ import { useAlbums } from "../../context";
 const useStyles = makeStyles(() => ({
   item: {
     minWidth: "350px",
-    margin: "1rem"
+    margin: "1rem",
+    cursor: "pointer"
   },
   media: {
     minHeight: "200px"

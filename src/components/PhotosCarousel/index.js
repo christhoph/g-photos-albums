@@ -2,6 +2,8 @@ import React from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { PoseGroup, Box } from "../../animations/Box";
+
 const useStyles = makeStyles(() => ({
   container: {
     height: "max-content",
@@ -26,17 +28,21 @@ const PhotosCarousel = ({ photos }) => {
 
   return (
     <div className={container}>
-      {photos &&
-        photos.map(({ id, baseUrl, filename }) => (
-          <Card key={id} className={card}>
-            <img className={cardImage} src={baseUrl} alt="base" />
-            <CardContent>
-              <Typography variant="caption" component="p">
-                {filename}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
+      <PoseGroup>
+        {photos &&
+          photos.map(({ id, baseUrl, filename }, i) => (
+            <Box key={id} position={i} className={card}>
+              <Card>
+                <img className={cardImage} src={baseUrl} alt="base" />
+                <CardContent>
+                  <Typography variant="caption" component="p">
+                    {filename}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+      </PoseGroup>
     </div>
   );
 };

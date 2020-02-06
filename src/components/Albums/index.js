@@ -8,7 +8,7 @@ const Albums = () => {
   const {
     state: { token }
   } = useAuth();
-  const { albums, handleSetAlbums } = useAlbums();
+  const { album, albums, handleSetAlbums } = useAlbums();
 
   const loadPhotos = useCallback(
     () =>
@@ -27,7 +27,7 @@ const Albums = () => {
     loadPhotos();
   }, [loadPhotos]);
 
-  return <AlbumsList albums={albums} />;
+  return !album && <AlbumsList album={album} albums={albums} />;
 };
 
 export default Albums;
